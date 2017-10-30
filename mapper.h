@@ -2,10 +2,11 @@
 // Created by ahmed on 10/30/17.
 //
 
-#ifndef HSH_VALIDATOR_H
-#define HSH_VALIDATOR_H
+#ifndef HS_SHELL_MAPPER_H
+#define HS_SHELL_MAPPER_H
 
 #include "commands.h"
+#include "tokenizer.h"
 
 /*
   List of builtin commands, followed by their corresponding functions.
@@ -16,23 +17,30 @@ char *builtin_str[] = {
         "exit"
 };
 
-int (*builtin_func[])(char **) = {
+int num_builtins() {
+    return sizeof(builtin_str) / sizeof(char *);
+}
+
+/**
+  @param tokens
+  @return state return value of executed command
+ */
+int (*builtin_func[])(Tokens tokens) = {
         &__cd,
         &__help,
         &__exit
 };
 
-int num_builtins() {
-    return sizeof(builtin_str) / sizeof(char *);
-}
-
-
 /**
   @brief help function implementation, lists all available build in functions
  */
-int __help(char **args) {
+int __help(Tokens tokens) {
+
+    // help at background run is neglected
+    if (tokens.background) return 1;
+
     int i;
-    printf("Hindawy-Siam Shell - HSH\n");
+    printf("Hindawy-Siam Shell - HSS\n");
     printf("Type program names and arguments, and hit enter.\n");
     printf("The following are built in:\n");
 
@@ -44,4 +52,4 @@ int __help(char **args) {
     return 1;
 }
 
-#endif //HSH_VALIDATOR_H
+#endif //HS_SHELL_MAPPER_H

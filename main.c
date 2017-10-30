@@ -4,8 +4,8 @@
 #include <stdio.h>
 #include <string.h>
 #include "mapper.h"
-#include "tokenizer.h"
 
+#define CURRENT_DIR_BUFFER 512
 
 /**
   @brief Launch a program and wait for it to terminate.
@@ -20,12 +20,12 @@ int launch(char **args) {
     if (pid == 0) {
         // Child process
         if (execvp(args[0], args) == -1) {
-            perror("hsh");
+            perror("hs-shell");
         }
         exit(EXIT_FAILURE);
     } else if (pid < 0) {
         // Error forking
-        perror("hsh");
+        perror("hs-shell");
     } else {
         // Parent process
         do {
@@ -41,9 +41,9 @@ int launch(char **args) {
    @param args Null terminated list of arguments.
    @return 1 if the shell should continue running, 0 if it should terminate
  */
-int execute(char **args) {
+int execute(Tokens tokens) {
+    char **args = tokens.args;
     int i;
-
     if (args[0] == NULL) {
         // An empty command was entered.
         return 1;
@@ -51,29 +51,33 @@ int execute(char **args) {
 
     for (i = 0; i < num_builtins(); i++) {
         if (strcmp(args[0], builtin_str[i]) == 0) {
-            return (*builtin_func[i])(args);
+            return (*builtin_func[i])(tokens);
         }
     }
 
     return launch(args);
 }
 
+
 /**
    @brief Loop getting input and executing it.
  */
 void loop(void) {
     char *line;
-    char **args;
+    Tokens tokens;
     int status;
 
+    char *current_dir = malloc(sizeof(char) * CURRENT_DIR_BUFFER);
+    size_t size = CURRENT_DIR_BUFFER;
     do {
-        printf("> ");
+        current_dir = getcwd(current_dir, size);
+        printf("%s => ", current_dir);
         line = read_line();
-        args = tokenize_line(line);
-        status = execute(args);
+        tokens = tokenize_line(line);
+        status = execute(tokens);
 
         free(line);
-        free(args);
+        free(tokens.args);
     } while (status);
 }
 

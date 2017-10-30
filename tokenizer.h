@@ -2,8 +2,13 @@
 // Created by ahmed on 10/30/17.
 //
 
-#ifndef HSH_TOKENIZER_H
-#define HSH_TOKENIZER_H
+#ifndef HS_SHELL_TOKENIZER_H
+#define HS_SHELL_TOKENIZER_H
+
+typedef struct {
+    char **args;
+    int background;
+} Tokens;
 
 /**
    @brief Read a line of input from stdin.
@@ -16,6 +21,6 @@ char *read_line(void);
    @param line The line.
    @return Null-terminated array of tokens.
  */
-char **tokenize_line(char *line);
+Tokens tokenize_line(char *line);
 
-#endif //HSH_TOKENIZER_H
+#endif //HS_SHELL_TOKENIZER_H
