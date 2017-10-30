@@ -3,7 +3,9 @@
 //
 
 #include <stdio.h>
-#include <zconf.h>
+#include <pwd.h>
+#include <unistd.h>
+#include <string.h>
 #include "tokenizer.h"
 
 /*
@@ -11,14 +13,17 @@
 */
 
 int __cd(Tokens tokens) {
-
     // cd at background is neglected
     if (tokens.background) return 1;
 
+    // get the home directory path using the user_id
+    uid_t uid = getuid();
+    struct passwd *pw = getpwuid(uid);
+
     char **args = tokens.args;
 
-    if (args[1] == NULL) {
-        fprintf(stderr, "hs-shell: expected argument to \"cd\"\n");
+    if (args[1] == NULL || strcmp(args[1], "~") == 0) {
+        chdir(pw->pw_dir);
     } else {
         if (chdir(args[1]) != 0) {
             perror("hs-shell");

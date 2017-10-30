@@ -2,3 +2,8 @@
 CMakeLists.txt
 cmake-build-debug
 shell
+.DS_Store
+Debug/
+hs-shell.mk
+hs-shell.project
+hs-shell.txt
