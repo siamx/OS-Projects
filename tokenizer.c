@@ -16,8 +16,8 @@
    @return The line from std-in.
  */
 char *read_line(void) {
-    int buffer_size = LINE_BUFFER_SIZE, position = 0;
-    char *buffer = malloc(sizeof(char) * buffer_size);
+    int position = 0;
+    char *buffer = malloc(sizeof(char) * LINE_BUFFER_SIZE);
     int c;
 
     if (!buffer) {
@@ -40,13 +40,10 @@ char *read_line(void) {
         position++;
 
         // If we have exceeded the buffer, reallocate.
-        if (position >= buffer_size) {
-            buffer_size += LINE_BUFFER_SIZE;
-            buffer = realloc(buffer, (size_t) buffer_size);
-            if (!buffer) {
-                fprintf(stderr, "hs-shell: allocation error\n");
-                exit(EXIT_FAILURE);
-            }
+        if (position >= LINE_BUFFER_SIZE) {
+            fprintf(stderr, "hs-shell: too long line\n");
+            buffer[0] = '\0';
+            return buffer;
         }
     }
 }
@@ -59,8 +56,8 @@ char *read_line(void) {
 Tokens tokenize_line(char *line) {
     Tokens tokens;
     int buffer_size = TOKEN_BUFFER_SIZE, position = 0;
-    tokens.args = malloc(buffer_size * sizeof(char *));
     char *token, **tokens_backup;
+    tokens.args = malloc(buffer_size * sizeof(char *));
 
     if (!tokens.args) {
         fprintf(stderr, "hs-shell: allocation error\n");

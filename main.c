@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdio_ext.h>
 #include "mapper.h"
 
 #define CURRENT_DIR_BUFFER 512
@@ -58,7 +59,6 @@ int execute(Tokens tokens) {
     return launch(args);
 }
 
-
 /**
    @brief Loop getting input and executing it.
  */
@@ -68,16 +68,24 @@ void loop(void) {
     int status;
 
     char *current_dir = malloc(sizeof(char) * CURRENT_DIR_BUFFER);
+    if (!current_dir) {
+        fprintf(stderr, "hs-shell: allocation error\n");
+        exit(EXIT_FAILURE);
+    }
+
     size_t size = CURRENT_DIR_BUFFER;
+
     do {
         current_dir = getcwd(current_dir, size);
-        printf("%s => ", current_dir);
+        fprintf(stdout, "%s » ", current_dir);
         line = read_line();
         tokens = tokenize_line(line);
         status = execute(tokens);
 
         free(line);
         free(tokens.args);
+
+        __fpurge(stdin);
     } while (status);
 }
 
@@ -88,6 +96,9 @@ void loop(void) {
    @return status code
  */
 int main(int argc, char **argv) {
+
+    // Always flush the stdout, stderr is unbuffered
+    setbuf(stdout, NULL);
 
     // Run command loop.
     loop();
