@@ -35,20 +35,19 @@ int (*builtin_func[])(Tokens tokens) = {
   @brief help function implementation, lists all available build in functions
  */
 int __help(Tokens tokens) {
-
     // help at background run is neglected
     if (tokens.background) return 1;
 
-    int i;
-    printf("Hindawy-Siam Shell - HSS\n");
-    printf("Type program names and arguments, and hit enter.\n");
-    printf("The following are built in:\n");
+    fprintf(stdout, "Hindawy-Siam Shell - HSS\n");
+    fprintf(stdout, "Type program names and arguments, and hit enter.\n");
+    fprintf(stdout, "The following are built in:\n");
 
+    int i;
     for (i = 0; i < num_builtins(); i++) {
-        printf("  %s\n", builtin_str[i]);
+        fprintf(stdout, "  %s\n", builtin_str[i]);
     }
 
-    printf("Use the man command for information on other programs.\n");
+    fprintf(stdout, "Use the man command for information on other programs.\n");
     return 1;
 }
 
