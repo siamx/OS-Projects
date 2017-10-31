@@ -6,6 +6,16 @@
 #include <stdio_ext.h>
 #include "mapper.h"
 
+// COLORS
+#define _RED     "\x1b[31m"
+#define _GREEN   "\x1b[32m"
+#define _YELLOW  "\x1b[33m"
+#define _BLUE    "\x1b[34m"
+#define _MAGENTA "\x1b[35m"
+#define _CYAN    "\x1b[36m"
+#define _RESET   "\x1b[0m"
+//
+
 #define CURRENT_DIR_BUFFER 512
 
 /**
@@ -77,7 +87,7 @@ void loop(void) {
 
     do {
         current_dir = getcwd(current_dir, size);
-        fprintf(stdout, "%s » ", current_dir);
+        fprintf(stdout, _CYAN "%s » " _RESET, current_dir);
         line = read_line();
         tokens = tokenize_line(line);
         status = execute(tokens);
