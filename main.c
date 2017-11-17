@@ -23,7 +23,7 @@
   @param args Null terminated list of arguments (including program).
   @return Always returns 1, to continue execution.
  */
-int launch(char **args) {
+int run(char **args) {
     pid_t pid;
     int status;
 
@@ -32,8 +32,8 @@ int launch(char **args) {
         // Child process
         if (execvp(args[0], args) == -1) {
             perror("hs-shell");
+            exit(EXIT_FAILURE);
         }
-        exit(EXIT_FAILURE);
     } else if (pid < 0) {
         // Error forking
         perror("hs-shell");
@@ -60,13 +60,13 @@ int execute(Tokens tokens) {
         return 1;
     }
 
-    for (i = 0; i < num_builtins(); i++) {
-        if (strcmp(args[0], builtin_str[i]) == 0) {
+    for (i = 0; i < builtin_cnt(); i++) {
+        if (strcmp(args[0], builtin_name[i]) == 0) {
             return (*builtin_func[i])(tokens);
         }
     }
 
-    return launch(args);
+    return run(args);
 }
 
 /**

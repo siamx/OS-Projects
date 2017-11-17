@@ -11,14 +11,14 @@
 /*
   List of builtin commands, followed by their corresponding functions.
  */
-char *builtin_str[] = {
+char *builtin_name[] = {
         "cd",
         "help",
         "exit"
 };
 
-int num_builtins() {
-    return sizeof(builtin_str) / sizeof(char *);
+int builtin_cnt() {
+    return sizeof(builtin_name) / sizeof(char *);
 }
 
 /**
@@ -43,8 +43,8 @@ int __help(Tokens tokens) {
     fprintf(stdout, "The following are built in:\n");
 
     int i;
-    for (i = 0; i < num_builtins(); i++) {
-        fprintf(stdout, "  %s\n", builtin_str[i]);
+    for (i = 0; i < builtin_cnt(); i++) {
+        fprintf(stdout, "  %s\n", builtin_name[i]);
     }
 
     fprintf(stdout, "Use the man command for information on other programs.\n");
