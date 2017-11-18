@@ -11,8 +11,8 @@ typedef struct {
 } Tokens;
 
 /**
-   @brief Read a line of input from stdin.
-   @return The line from stdin.
+   @brief Read a line of input from std-in.
+   @return The line from std-in.
  */
 char *read_line(void);
 
