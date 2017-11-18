@@ -23,27 +23,30 @@
   @param args Null terminated list of arguments (including program).
   @return Always returns 1, to continue execution.
  */
-int run(char **args) {
+int run(Tokens tokens) {
+    char **args = tokens.args;
     pid_t pid;
     int status;
 
     pid = fork();
-    if (pid == 0) {
-        // Child process
+    if (pid == 0) {// Child process
+        // if background suppress output
+        if (tokens.background)
+            close(0), close(1), close(2);
+
         if (execvp(args[0], args) == -1) {
             perror("hs-shell");
             exit(EXIT_FAILURE);
         }
-    } else if (pid < 0) {
-        // Error forking
+
+        exit(EXIT_SUCCESS);
+    } else if (pid < 0) {// Error forking
         perror("hs-shell");
-    } else {
-        // Parent process
+    } else if (!tokens.background) {// Parent process
         do {
             waitpid(pid, &status, WUNTRACED);
         } while (!WIFEXITED(status) && !WIFSIGNALED(status));
     }
-
     return 1;
 }
 
@@ -66,7 +69,7 @@ int execute(Tokens tokens) {
         }
     }
 
-    return run(args);
+    return run(tokens);
 }
 
 /**

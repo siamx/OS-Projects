@@ -24,10 +24,10 @@ int __cd(Tokens tokens) {
 
     if (args[1] == NULL || strcmp(args[1], "~") == 0) {
         chdir(pw->pw_dir);
-    } else {
-        if (chdir(args[1]) != 0) {
-            perror("hs-shell");
-        }
+    } else if (args[1] != NULL && args[2] != NULL) {
+        fprintf(stderr, "hs-shell: too many args for cd\n");
+    } else if (chdir(args[1]) != 0) {
+        perror("hs-shell");
     }
     return 1;
 }

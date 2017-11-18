@@ -83,8 +83,12 @@ Tokens tokenize_line(char *line) {
         token = strtok(NULL, TOKEN_DELIMITER);
     }
     tokens.args[position] = NULL;
+    tokens.background = 0;
 
     // check for `&`, background command
-    tokens.background = (position > 1 && strcmp(tokens.args[position - 1], "&") == 0) ? 1 : 0;
+    if (position > 1 && strcmp(tokens.args[position - 1], "&") == 0) {
+        tokens.background = 1;
+        tokens.args[position - 1] = NULL;
+    }
     return tokens;
 }
