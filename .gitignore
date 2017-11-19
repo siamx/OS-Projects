@@ -1,9 +1,4 @@
-.idea/
-CMakeLists.txt
-cmake-build-debug
-shell
-.DS_Store
-Debug/
-hs-shell.mk
-hs-shell.project
-hs-shell.txt
+hs-shell/.idea/
+hs-shell/CMakeLists.txt
+hs-shell/cmake-build-debug
+hs-shell/shell
