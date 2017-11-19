@@ -2,3 +2,7 @@ hs-shell/.idea/
 hs-shell/CMakeLists.txt
 hs-shell/cmake-build-debug
 hs-shell/shell
+
+matrix-multiply/.idea/
+matrix-multiply/CMakeLists.txt
+matrix-multiply/cmake-build-debug
