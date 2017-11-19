@@ -1,1 +1,1 @@
-# Operatin System Course Projects, Written in C
+# Operatin System Course Projects
