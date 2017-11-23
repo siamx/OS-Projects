@@ -5,3 +5,5 @@ hs-shell/shell
 matrix-multiply/.idea
 matrix-multiply/cmake-build-debug
 matrix-multiply/matrix_multiply
+matrix_multiply/matrix_A
+matrix_multiply/matrix_B
