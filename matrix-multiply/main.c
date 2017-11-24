@@ -34,32 +34,35 @@ int main() {
     time = clock() - time;
     double run_time = ((double) time) / CLOCKS_PER_SEC; // in seconds
     printf(" single thread: took %f seconds to execute \n", run_time);
-//    print_matrix(c);
+    print_matrix(c);
 
+    c = new_matrix(a.row, b.col);
 
     time = clock();
     thread_per_row(a);
     time = clock() - time;
     run_time = ((double) time) / CLOCKS_PER_SEC; // in seconds
-    printf("thread per row: took %f seconds to execute \n", run_time);
-//    print_matrix(c);
+    printf("\nthread per row: took %f seconds to execute \n", run_time);
+    print_matrix(c);
 
+    c = new_matrix(a.row, b.col);
 
     time = clock();
     int threads = 4;
     variable_threads(threads);
     time = clock() - time;
     run_time = ((double) time) / CLOCKS_PER_SEC; // in seconds
-    printf("%6d threads: took %f seconds to execute \n", threads, run_time);
-//    print_matrix(c);
+    printf("\n%6d threads: took %f seconds to execute \n", threads, run_time);
+    print_matrix(c);
 
+    c = new_matrix(a.row, b.col);
 
-//    time = clock();
-//    c = thread_per_element(a, b);
-//    time = clock() - time;
-//    run_time = ((double) time) / CLOCKS_PER_SEC; // in seconds
-//    printf("thread per elem: took %f seconds to execute \n", run_time);
-//    print_matrix(c);
+    time = clock();
+    int t = thread_per_element(a, b);
+    time = clock() - time;
+    run_time = ((double) time) / CLOCKS_PER_SEC; // in seconds
+    printf("\nthread per elem: took %f seconds to execute \n", run_time);
+    print_matrix(c);
 }
 
 void *runner_multiply_element(void *arguments) {
@@ -90,11 +93,12 @@ int thread_per_element(Matrix a, Matrix b) {
     int cnt = 0;
     for (int i = 0; i < a.row; ++i) {
         for (int j = 0; j < b.col; ++j) {
-            args[i].row = i;
-            args[i].col = j;
-            int cur_thread = pthread_create(&thread[i], NULL, runner_multiply_element, (void *) &args[i]);
+            args[(i * a.row) + j].row = i;
+            args[(i * a.row) + j].col = j;
+            int cur_thread = pthread_create(&thread[(i * a.row) + j], NULL, runner_multiply_element,
+                                            (void *) &args[(i * a.row) + j]);
             if (cur_thread != 0) {
-                printf("Uh-oh! Failed to create thread %d\n", i);
+                printf("Uh-oh! Failed to create thread %d\n", j);
                 exit(0);
             } else {
                 cnt++;
