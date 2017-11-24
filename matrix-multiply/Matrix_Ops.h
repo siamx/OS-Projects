@@ -5,6 +5,9 @@
 #ifndef MATRIX_MULTIPLY_MATRIX_OP_H
 #define MATRIX_MULTIPLY_MATRIX_OP_H
 
+#include <stdio.h>
+#include <stdlib.h>
+
 typedef struct {
     int row;
     int col;
