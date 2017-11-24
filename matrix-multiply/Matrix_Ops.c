@@ -3,8 +3,6 @@
 //
 
 #include "Matrix_Ops.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 Matrix new_matrix(int row, int col) {
     Matrix mat;

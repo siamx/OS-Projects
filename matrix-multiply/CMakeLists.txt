@@ -7,6 +7,6 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pthread")
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
 
-set(SOURCE_FILES main.c Matrix_Ops.c Matrix_Ops.h)
+set(SOURCE_FILES main.c Matrix_Ops.c Matrix_Ops.h Thread.c Thread.h)
 
 add_executable(matrix_multiply ${SOURCE_FILES})
