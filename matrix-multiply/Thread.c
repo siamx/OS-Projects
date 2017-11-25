@@ -10,11 +10,6 @@ char *function_name[] = {
         "thread per element"
 };
 
-/**
- * @brief function pointer
- * @param thread_cnt
- * @return
- */
 int (*function[])(int thread_cnt) = {
         &variable_threads,
         (int (*)(int)) &thread_per_row,

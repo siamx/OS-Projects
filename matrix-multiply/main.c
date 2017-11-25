@@ -3,22 +3,21 @@
 void write(int row, int col);
 
 int main() {
-//    write(30, 30);
+//    write(10, 10);
 
     a = read_matrix("tests/A1.txt");
     b = read_matrix("tests/B1.txt");
     c = new_matrix(a.row, b.col);
     clock_t time;
 
-
     time = clock();
     c = multiply_matrix(a, b);
     time = clock() - time;
-    print_matrix(c);
+    print_matrix(c, "tests/C1.txt");
     free(c.matrix);
     printf("%20s,    1 thread: %lf sec.\n\n", "single thread", (double) time / CLOCKS_PER_SEC);
 
-    int thread_count = 4;
+    int thread_count = 2;
     for (int i = 0; i < 3; ++i) {
         c = new_matrix(a.row, b.col);
         time = clock();

@@ -34,27 +34,41 @@ Matrix new_matrix(int row, int col) {
 }
 
 Matrix read_matrix(char *file_name) {
-    freopen(file_name, "r", stdin);
+    FILE *file = fopen(file_name, "r");
+    if (!file) {
+        fprintf(stdout, "Failed to write output matrix to file.");
+        exit(1);
+    }
+
     int row, col;
-    scanf("%d %d", &row, &col); // NOLINT
+    fscanf(file, "%d %d", &row, &col); // NOLINT
 
     Matrix mat = new_matrix(row, col);
 
     for (int i = 0; i < mat.row; ++i)
         for (int j = 0; j < mat.col; ++j)
-            scanf(" %lf", &(mat.matrix[i][j])); // NOLINT
+            fscanf(file, " %lf", &(mat.matrix[i][j])); // NOLINT
 
-    fclose(stdin);
+    fclose(file);
     return mat;
 }
 
-void print_matrix(Matrix matrix) {
+void print_matrix(Matrix matrix, char *file_name) {
+    FILE *file = fopen(file_name, "w+");
+    if (!file) {
+        fprintf(stdout, "Failed to write output matrix to file.");
+        exit(1);
+    }
+
+    fprintf(file, "%d %d\n", matrix.row, matrix.col);
+
     for (int i = 0; i < matrix.row; ++i) {
         for (int j = 0; j < matrix.col; ++j) {
-            printf("%-2lf ", matrix.matrix[i][j]);
+            fprintf(file, "%-2lf ", matrix.matrix[i][j]);
         }
-        printf("\n");
+        fprintf(file, "\n");
     }
+    fclose(file);
 }
 
 Matrix multiply_matrix(Matrix a, Matrix b) {
