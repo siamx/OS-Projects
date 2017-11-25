@@ -5,9 +5,8 @@ void write(int row, int col);
 int main() {
 //    write(30, 30);
 
-
-    a = read_matrix("matrix_A");
-    b = read_matrix("matrix_B");
+    a = read_matrix("tests/A1.txt");
+    b = read_matrix("tests/B1.txt");
     c = new_matrix(a.row, b.col);
     clock_t time;
 
@@ -39,7 +38,7 @@ int main() {
 void write(int row, int col) {
     const int max_rand = 101;
 
-    freopen("matrix_A", "w", stdout);
+    freopen("tests/A1.txt", "w", stdout);
     printf("%d %d\n", row, col);
     for (int i = 0; i < row; ++i) {
         for (int j = 0; j < col; ++j) {
@@ -50,7 +49,7 @@ void write(int row, int col) {
     }
     fclose(stdout);
 
-    freopen("matrix_B", "w", stdout);
+    freopen("tests/B1.txt", "w", stdout);
     printf("%d %d\n", col, row);
     for (int i = 0; i < col; ++i) {
         for (int j = 0; j < row; ++j) {
